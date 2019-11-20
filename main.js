@@ -21,12 +21,14 @@ $(function(){
     });
 
     //добавляем функционал на флажок который зачеркивает содержимое записи
-    $('.wrap').on('click', '[type= "checkbox"]', function(){
+    $('.wrap').on('click', '.flags', function(){
        // console.log($(this).parent().css('text-decoration'));
         if($(this).parent().css('text-decoration') === "line-through solid rgb(255, 255, 255)"){
             $(this).parent().css('text-decoration', 'none')
+            $(this).parent().css('background', '#3465a7');
         } else {
             $(this).parent().css('text-decoration', 'line-through');
+            $(this).parent().css('background', 'grey');
         };
     });
     //console.log($('input[type="chebox"]'));
@@ -35,11 +37,13 @@ $(function(){
     let count =0;
     $('.mainFlag').on('click', function(){
         $('.comment').css('text-decoration', 'line-through');
+        $('.comment').css('background', 'grey');
         $('.flags').prop('checked', true);
         count++
         //на каждый четный клик снимает выделение с элементов
         if(count%2===0){
             $('.comment').css('text-decoration', 'none');
+            $('.comment').css('background', '#3465a7');
             $('.flags').prop('checked', false);
         }
         
