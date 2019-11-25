@@ -1,4 +1,67 @@
 $(function(){
+    //работа с JSON
+    $('#get1').click(function(){
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:4000/user/1',
+
+            //запускаем прелоадер
+            beforeSend: function(){
+                $('span').show(500);
+            },
+            success: function(data){
+                console.log(data);
+                $('.wrap').append('<div class="comment"><input class= "flags" type="checkbox">'+data.content+' id = "'+data.id+'"<input class = "delBtn" type="button" value = "Delete"></div>')
+                $('.comment').slideDown(800)    
+            },
+            error: function(err){
+                alert(err.statusText)
+            },
+
+            //убираем прелоадер (complete отрабатывает всегда)
+            complete: function(){
+                setTimeout(function(){
+                    $('span').hide(500);
+                }, 1200)
+                
+            }
+        }); 
+    });
+
+    $('#get2').click(function(){
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:4000/user/2',
+
+            success: function(data){
+                console.log(data);
+                $('.wrap').append('<div class="comment"><input class= "flags" type="checkbox">'+data.content+' id = "'+data.id+'"<input class = "delBtn" type="button" value = "Delete"></div>')
+                $('.comment').slideDown(800)
+            },
+        }); 
+    });
+    
+    // $('#put').click(function(){
+    //     const body = {"name": "Kate", "age": 24, "role": "manager"};
+
+    //     $.ajax({
+    //         type: 'PUT',
+    //         data: body,
+    //         url: 'http://localhost:4000/user/2'
+    //     })
+    // })
+    
+    // $('#post').click(function(){
+    //     const body = {"name": "Igor", "age": 24, "role": "user"};
+
+    //     $.ajax({
+    //         type: 'POST',
+    //         data: body,
+    //         url: 'http://localhost:4000/user'
+    //     })
+    // })
+    
+
 
     //добавляем функционал на кнопку Send
     $('.sendBtn').on('click', function(){
@@ -10,6 +73,7 @@ $(function(){
             //console.log(value);
             //добавляю в div с классом .wrap новый div.comment в которой так же есть чекбокс и кнопка
             $('.wrap').append('<div class="comment"><input class= "flags" type="checkbox">'+value+'<input class = "delBtn" type="button" value = "Delete"></div>')
+            $('.comment').slideDown(800)
             //console.log($('.delBtn'))
             $('.userText').val('');
         }
@@ -17,7 +81,10 @@ $(function(){
 
     //добавляем функционал на кнопку Delete
     $('.wrap').on('click','.delBtn', function(){
-        $(this).parent().remove()
+        $(this).parent().slideUp(800, function(){
+            //тут контекст this поменялся
+            $(this).remove();
+        })
     });
 
     //добавляем функционал на флажок который зачеркивает содержимое записи
